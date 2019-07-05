@@ -9,12 +9,69 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/xampp/htdocs/my-test/src/Controller/QuestionsController.php'|file_link(0) }}">src/Controller/QuestionsController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/xampp/htdocs/my-test/templates/questions/index.html.twig'|file_link(0) }}">templates/questions/index.html.twig</a></code></li>
-    </ul>
+	<form name="questionForm" action="/addAnswer" method="POST">
+	    <div id="page1">
+			{% for question in questions | slice(0, 5) %}
+				<div class="list-group">
+				  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+				    <div class="d-flex w-100 justify-content-between">
+				    	<h5 class="mb-1">{{ question.content }}</h5>
+			      		<small>{{ weights ? weights[loop.index0] : 'N/A' }}</small>
+				    </div>
+				    <p class="mb-1">
+				    	<label class="mr-4 p-2"><input type="radio" name="{{question.id}}" value="0" checked /> 0</label>
+						<label class="mr-4 p-2"><input type="radio" name="{{question.id}}" value="1"  /> 1</label>
+						<label class="mr-4 p-2"><input type="radio" name="{{question.id}}" value="2"  /> 2</label>
+						<label class="mr-4 p-2"><input type="radio" name="{{question.id}}" value="3"  /> 3</label>
+						<label class="mr-4 p-2"><input type="radio" name="{{question.id}}" value="4"  /> 4</label>
+						<label class="p-2"><input type="radio" name="{{question.id}}" value="5"  /> 5</label>
+				    </p>
+				  </a>
+				</div>
+			{% endfor %}
+		    <button type="button" class="btn btn-secondary" id="next">Next</button>
+	    </div>
+	    <div id="page2" style="display: none;">
+			{% for question in questions | slice(5, 5) %}
+				<div class="list-group">
+				  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+				    <div class="d-flex w-100 justify-content-between">
+				    	<h5 class="mb-1">{{ question.content }}</h5>
+				    	<small>{{ weights ? weights[loop.index0 + 5] : 'N/A' }}</small>
+				    </div>
+				    <p class="mb-1">
+				    	<label class="mr-4 p-2"><input type="radio" name="{{question.id}}" value="0" checked /> 0</label>
+						<label class="mr-4 p-2"><input type="radio" name="{{question.id}}" value="1"  /> 1</label>
+						<label class="mr-4 p-2"><input type="radio" name="{{question.id}}" value="2"  /> 2</label>
+						<label class="mr-4 p-2"><input type="radio" name="{{question.id}}" value="3"  /> 3</label>
+						<label class="mr-4 p-2"><input type="radio" name="{{question.id}}" value="4"  /> 4</label>
+						<label class="p-2"><input type="radio" name="{{question.id}}" value="5"  /> 5</label>
+				    </p>
+				  </a>
+				</div>
+			{% endfor %}
+		    <button type="button" class="btn btn-secondary" id="back">Back</button>
+		    <button type="submit" class="btn btn-success" id="send">Submit</button>
+	    </div>
+	    </div>
+	</form>
 </div>
+
+<script>
+$(document).ready(function() {
+	$('button#next').click(function() {
+		$('div#page1').hide();
+		$('div#page2').show();
+	});
+
+	$('button#back').click(function() {
+		$('div#page2').hide();
+		$('div#page1').show();
+	});
+
+	$('button#send').click(function() {
+
+	});
+});
+</script>
 {% endblock %}

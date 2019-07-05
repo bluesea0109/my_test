@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello StatisticsController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <div id="container"></div>
+</div>
+
+<script>
+	var data = {{ weights | json_encode() | raw }};
+
+	var chart = Highcharts.chart('container', {
+
+	    title: {
+	        text: 'Statistics'
+	    },
+
+	    subtitle: {
+	        text: 'Plain'
+	    },
+
+	    xAxis: {
+	        categories: ['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7', 'Q8', 'Q9', 'Q10']
+	    },
+
+	    series: [{
+	        type: 'column',
+	        colorByPoint: true,
+	        data: jQuery(data).map(function(index, value) { return parseFloat(value) }),
+	        showInLegend: false
+	    }]
+
+	});
+
+
+	$('#plain').click(function () {
+	    chart.update({
+	        chart: {
+	            inverted: false,
+	            polar: false
+	        },
+	        subtitle: {
+	            text: 'Plain'
+	        }
+	    });
+	});
+
+	$('#inverted').click(function () {
+	    chart.update({
+	        chart: {
+	            inverted: true,
+	            polar: false
+	        },
+	        subtitle: {
+	            text: 'Inverted'
+	        }
+	    });
+	});
+
+	$('#polar').click(function () {
+	    chart.update({
+	        chart: {
+	            inverted: false,
+	            polar: true
+	        },
+	        subtitle: {
+	            text: 'Polar'
+	        }
+	    });
+	});
+
+</script>
+{% endblock %}
